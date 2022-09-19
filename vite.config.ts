@@ -13,6 +13,17 @@ export default defineConfig({
       '@': resolve(__dirname, 'src')
     }
   },
+  css: {
+    preprocessorOptions: {
+      less: {
+        additionalData: '@import "@/assets/variables.less";'
+        // javascriptEnabled: true,
+        // modifyVars: {
+        //   hack: `true; @import "${resolve(process.cwd(), './src/assets').replace(/\\/g, '\\\\')}/variables.less";`
+        // }
+      }
+    }
+  },
   plugins: [
     uni(),
     eslintPlugin({

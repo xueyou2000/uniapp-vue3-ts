@@ -1,18 +1,39 @@
 <template>
   <view class="content">
-    <image class="logo" src="/static/logo.png" />
+    <image class="logo" src="/static/logo.png" @click="increment" />
     <view class="text-area">
-      <text class="title">{{ title }}</text>
+      <text class="title">{{ title }} Count: {{ count }} Double: {{ double }}</text>
     </view>
   </view>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue'
-const title = ref('Hello')
+<script lang="ts">
+import { onLoad } from '@dcloudio/uni-app'
+import { defineComponent, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useCounterStore } from '@/stores/counter'
+
+export default defineComponent({
+  setup() {
+    const title = ref('Hello')
+    const countStore = useCounterStore()
+    const { count, double } = storeToRefs(countStore)
+
+    onLoad((params) => {
+      console.log(uni.getSystemInfoSync())
+      console.log('首页 onLoad params: ', params)
+    })
+    return {
+      title,
+      count,
+      double,
+      increment: countStore.increment
+    }
+  }
+})
 </script>
 
-<style>
+<style lang="less">
 .content {
   display: flex;
   flex-direction: column;
@@ -36,6 +57,6 @@ const title = ref('Hello')
 
 .title {
   font-size: 36rpx;
-  color: #8f8f94;
+  color: @uni-color-success;
 }
 </style>
