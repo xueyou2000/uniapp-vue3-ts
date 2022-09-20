@@ -1,6 +1,7 @@
 {
-  "name": "uni-preset-vue",
-  "version": "0.0.0",
+  "name": "uni-app-vue3-template",
+  "version": "0.0.1",
+  "description": "uni-app vue3 template, include eslint、ts support、prettier",
   "scripts": {
     "dev:app": "uni -p app",
     "dev:app-android": "uni -p app-android",
@@ -52,6 +53,7 @@
     "@typescript-eslint/parser": "^5.37.0",
     "@vitejs/plugin-vue": "^3.1.0",
     "@vue/eslint-config-typescript": "^11.0.1",
+    "dayjs": "^1.11.5",
     "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard-with-typescript": "^23.0.0",
@@ -60,12 +62,15 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.0.1",
     "eslint-plugin-vue": "^9.5.1",
+    "modern-normalize": "^1.1.0",
     "pinia": "^2.0.22",
     "prettier": "^2.7.1",
+    "qs": "^6.11.0",
+    "uni-app-network": "^0.6.0",
     "vite-plugin-eslint": "^1.8.1",
     "vue": "^3.2.39",
     "vue-i18n": "^9.1.9",
-    "vuex": "^4.0.2"
+    "vue-query": "^1.26.0"
   },
   "devDependencies": {
     "@dcloudio/types": "^3.0.14",
@@ -73,9 +78,24 @@
     "@dcloudio/uni-cli-shared": "3.0.0-alpha-3060220220914001",
     "@dcloudio/uni-stacktracey": "3.0.0-alpha-3060220220914001",
     "@dcloudio/vite-plugin-uni": "3.0.0-alpha-3060220220914001",
+    "@types/html5plus": "^1.0.2",
     "@types/node": "^18.7.18",
+    "@types/qs": "^6.9.7",
+    "@types/uni-app": "^1.4.4",
+    "@vue/tsconfig": "^0.1.3",
     "less": "^4.1.3",
+    "mini-types": "^0.1.7",
+    "miniprogram-api-typings": "^3.6.0",
+    "mockjs": "^1.1.0",
+    "type-fest": "^2.19.0",
     "typescript": "^4.8.3",
-    "vite": "^2.9.14"
+    "uni-app-types": "^0.1.5",
+    "uni-cloud-types": "^0.1.5",
+    "uni-ui-types": "^0.1.3",
+    "unplugin-icons": "^0.14.10",
+    "unplugin-vue-macros": "^0.11.2",
+    "vite": "^2.9.14",
+    "vite-plugin-inspect": "^0.7.2",
+    "vite-plugin-mock": "^2.9.6"
   }
 }

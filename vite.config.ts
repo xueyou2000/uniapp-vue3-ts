@@ -1,10 +1,14 @@
-import { defineConfig } from 'vite'
 import uni from '@dcloudio/vite-plugin-uni'
-import eslintPlugin from 'vite-plugin-eslint'
 import { resolve } from 'path'
+import { defineConfig } from 'vite'
+import eslintPlugin from 'vite-plugin-eslint'
+import { viteMockServe } from 'vite-plugin-mock'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    target: 'es6'
+  },
   server: {
     host: '0.0.0.0'
   },
@@ -25,9 +29,19 @@ export default defineConfig({
     }
   },
   plugins: [
-    uni(),
+    uni({
+      vueOptions: {
+        reactivityTransform: true
+      },
+      viteLegacyOptions: {
+        targets: ['ios >= 10', 'chrome >= 53']
+      }
+    }),
     eslintPlugin({
       include: ['src/**/*.ts', 'src/**/*.vue', 'src/*.ts', 'src/*.vue']
+    }),
+    viteMockServe({
+      localEnabled: process.env.NODE_ENV != 'production'
     })
   ]
 })
