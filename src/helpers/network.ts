@@ -6,7 +6,7 @@ import { MutationCache, QueryCache, QueryClient, type VueQueryPluginOptions } fr
 import { showToast } from './toast'
 import { reactive } from 'vue'
 import { showModal } from './modal'
-import { HOME_PAGE } from '@/constants'
+import { HOME_PAGE, Headers } from '@/constants'
 
 const instance = uan.create({
   baseUrl: import.meta.env.VITE_REQUEST_BASE_URL || '/',
