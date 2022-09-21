@@ -1,3 +1,4 @@
+import 'core-js/actual'
 import { createSSRApp } from 'vue'
 import * as Pinia from 'pinia'
 import App from './App.vue'
@@ -5,7 +6,6 @@ import { initDayjs } from '@/initialize/dayjs'
 import { VueQueryPlugin } from 'vue-query'
 import { vueQueryPluginOptions } from './helpers'
 
-import 'modern-normalize'
 import '@/assets/global.less'
 
 initDayjs()

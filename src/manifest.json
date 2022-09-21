@@ -12,6 +12,7 @@
     "uploadFile": 60000,
     "downloadFile": 60000
   },
+  "debug": false,
   /* 5+App特有相关 */
   "app-plus": {
     "usingComponents": true,
@@ -29,6 +30,23 @@
     "distribute": {
       /* android打包配置 */
       "android": {
+        "abiFilters": ["armeabi-v7a", "arm64-v8a", "x86"],
+        "splashscreen": {
+          "alwaysShowBeforeRender": true,
+          "autoclose": true,
+          "waiting": true,
+          "delay": 0
+        },
+        "minSdkVersion": 21,
+        "targetSdkVersion": 26,
+        "permissionExternalStorage": {
+          "request": "once",
+          "prompt": "应用保存运行状态等信息，需要获取读写手机存储权限，系统可能提示为访问设备上的照片、媒体内容和文件，请允许。"
+        },
+        "permissionPhoneState": {
+          "request": "once",
+          "prompt": "为保证正常安全使用，需要获取设备识别码使用权限，系统可能提示为获取手机号码，请允许。"
+        },
         "permissions": [
           "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
           "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
@@ -57,11 +75,25 @@
   "quickapp": {},
   /* 小程序特有相关 */
   "mp-weixin": {
-    "appid": "",
+    "appid": "wxcb7527919e1307a3",
+    "usingComponents": true,
+    "permission": {},
     "setting": {
-      "urlCheck": false
-    },
-    "usingComponents": true
+      "es6": false,
+      "enhance": false,
+      "nodeModules": false,
+      "postcss": false,
+      "minifyWXSS": false,
+      "minified": false,
+      "uglifyFileName": false,
+      "urlCheck": true,
+      "showShadowRootInWxmlPanel": true,
+      "preloadBackgroundData": false,
+      "compileHotReLoad": false,
+      "bundle": false,
+      "checkSiteMap": false,
+      "checkInvalidKey": false
+    }
   },
   "mp-alipay": {
     "usingComponents": true

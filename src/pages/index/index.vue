@@ -152,12 +152,12 @@ export default defineComponent({
 }
 
 .logo {
-  height: 200rpx;
   width: 200rpx;
+  height: 200rpx;
   margin-top: 200rpx;
-  margin-left: auto;
   margin-right: auto;
   margin-bottom: 50rpx;
+  margin-left: auto;
 }
 
 .text-area {
@@ -170,13 +170,13 @@ export default defineComponent({
   color: @uni-color-success;
 }
 .chat-custom-right {
-  flex: 1;
   /* #ifndef APP-NVUE */
   display: flex;
+  flex: 1;
   /* #endif */
   flex-direction: column;
-  justify-content: space-between;
   align-items: flex-end;
+  justify-content: space-between;
 }
 
 .chat-custom-text {
