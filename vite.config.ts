@@ -63,8 +63,9 @@ export default defineConfig({
     }),
     viteMockServe({
       localEnabled: process.env.NODE_ENV != 'production'
-    }),
-    inspect()
+    })
+    // inspect插件需要vite@3.x以上
+    // inspect()
   ],
   resolve: {
     alias: {

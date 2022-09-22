@@ -16,10 +16,11 @@ declare global {
 
   type TRequestData = Record<string, any>
 
-  type TResponseData = {
+  type TResponseData<T = any> = {
     success: boolean
     code: string
     message: string
+    data: T
     [key: string]: any
   }
 

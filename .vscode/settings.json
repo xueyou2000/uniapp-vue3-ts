@@ -48,7 +48,8 @@
     "manifest.json": "jsonc",
     "pages.json": "jsonc",
     "tsconfig.json": "jsonc",
-    "settings.json": "jsonc"
+    "settings.json": "jsonc",
+    "build-configure/*.json": "jsonc"
   },
   "git.autofetch": true,
   "js/ts.implicitProjectConfig.experimentalDecorators": true,

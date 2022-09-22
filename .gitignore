@@ -181,3 +181,4 @@ dist_ssg
 
 .husky
 .hbuilderx
+build-configure

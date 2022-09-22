@@ -2,33 +2,91 @@
   "$schema": "https://gitee.com/ModyQyW/uni-helper/raw/main/packages/vscode-uni-app-schemas/schemas/pages.json",
   "pages": [
     {
-      "path": "pages/index/index",
+      "path": "pages/home-screen/home",
       "style": {
-        "navigationBarTitleText": "uni-app"
+        "app-plus": {
+          "titleNView": false
+        }
       }
     },
     {
-      "path": "pages/datacom/demo"
+      "path": "pages/home-screen/market",
+      "style": {
+        "app-plus": {
+          "titleNView": false
+        }
+      }
+    },
+    {
+      "path": "pages/home-screen/my-hub",
+      "style": {
+        "app-plus": {
+          "titleNView": false,
+          "background": "#f6f6f6"
+        },
+        "backgroundColor": "#f6f6f6",
+        "backgroundColorTop": "#fff",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/account/dashboard",
+      "style": {
+        "navigationBarTitleText": "我的账户"
+      }
+    },
+    {
+      "path": "pages/account/order-list",
+      "style": {
+        "navigationBarTitleText": "订单列表"
+      }
+    },
+    {
+      "path": "pages/account/medal",
+      "style": {
+        "navigationBarTitleText": "我的勋章"
+      }
+    },
+    {
+      "path": "pages/my/share",
+      "style": {
+        "navigationBarTitleText": "分享"
+      }
+    },
+    {
+      "path": "pages/my/setting",
+      "style": {
+        "navigationBarTitleText": "设置"
+      }
     }
   ],
   "tabBar": {
-    "color": "#7A7E83",
+    "color": "#333",
     "selectedColor": "#007AFF",
     "borderStyle": "black",
-    "backgroundColor": "#F8F8F8",
-    "blurEffect": "light",
+    "blurEffect": "extralight",
+    "spacing": "5px",
+    "height": "60px",
+    "iconWidth": "24px",
+    "fontSize": "13px",
     "list": [
       {
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/home-screen/home",
         "iconPath": "static/tabbar/home.png",
         "selectedIconPath": "static/tabbar/home_s.png",
         "text": "首页"
       },
       {
-        "pagePath": "pages/datacom/demo",
+        "pagePath": "pages/home-screen/market",
         "iconPath": "static/tabbar/market.png",
         "selectedIconPath": "static/tabbar/market_s.png",
         "text": "市场"
+      },
+      {
+        "pagePath": "pages/home-screen/my-hub",
+        "iconPath": "static/tabbar/mine.png",
+        "selectedIconPath": "static/tabbar/mine_s.png",
+        "text": "我的"
       }
     ]
   },
