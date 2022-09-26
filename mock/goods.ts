@@ -5,7 +5,7 @@ export default [
   {
     url: '/api/my/goods/list',
     method: 'post',
-    timeout: 2000,
+    timeout: 300,
     response({ body }: { url: Recordable; body: Recordable; query: Recordable; headers: Recordable }) {
       const { page, page_size, type } = body
 

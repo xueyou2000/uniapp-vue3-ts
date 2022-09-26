@@ -59,21 +59,21 @@ export default defineComponent({
     const pagingRef = ref<InstanceType<any>>()
     const scrollable = ref(false)
     const scrollTop = ref(0)
-    let completeFunc: (() => void) | null = null
+    const completeFunc = ref<(() => void) | null>(null)
 
     function queryByPage(pageNum: number, pageSize: number) {
       return queryMyGoodsByPage({ page: pageNum, page_size: pageSize, type: props.tabIndex })
         .then((data) => {
           pagingRef.value?.complete(data)
           firstLoaded.value = true
-          if (completeFunc) {
-            completeFunc()
+          if (completeFunc.value) {
+            completeFunc.value()
           }
         })
         .catch(() => {
           pagingRef.value?.complete(false)
-          if (completeFunc) {
-            completeFunc()
+          if (completeFunc.value) {
+            completeFunc.value()
           }
         })
     }
@@ -140,8 +140,12 @@ export default defineComponent({
     }
 
     function reload(_completeFunc: () => void) {
-      completeFunc = _completeFunc
+      completeFunc.value = _completeFunc
       pagingRef.value?.reload()
+    }
+
+    function reset() {
+      pagingRef.value?.scrollToY(0)
     }
 
     return {
@@ -153,7 +157,8 @@ export default defineComponent({
       reload,
       touchDirectionChange,
       scrolltoupper,
-      scroll
+      scroll,
+      reset
     }
   }
 })
@@ -165,6 +170,10 @@ export default defineComponent({
 
   .item {
     margin: 20rpx auto;
+  }
+
+  :deep(.uni-grid-wrap) {
+    padding: 40rpx 0;
   }
 
   &.empty {

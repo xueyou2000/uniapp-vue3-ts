@@ -86,7 +86,7 @@
 </template>
 
 <script lang="ts">
-import { onLoad } from '@dcloudio/uni-app'
+import { onLoad, onShow } from '@dcloudio/uni-app'
 import { defineComponent, ref, nextTick, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores'
@@ -128,7 +128,7 @@ export default defineComponent({
     const scrollable = ref(true)
     const sticked = ref(false)
     const tabsNode = ref(270)
-    const contentHeight = ref(640)
+    const contentHeight = ref(630)
     const pagingRef = ref<InstanceType<any>>()
     const myGoodsListRef = ref<InstanceType<any>>([])
     const tabsRef = ref<InstanceType<any>>()
@@ -156,14 +156,14 @@ export default defineComponent({
       if (scrollTop < tabsNode.value) {
         //还没吸顶
         //禁止子组件的z-paging(scroll-view)滚动，当前页面的z-paging(scroll-view)允许滚动
-        scrollable.value = true
         myGoodsListRef.value[currentTab.value].setScrollable(false)
+        scrollable.value = true
         sticked.value = false
       } else {
         //吸顶了
         //允许子组件的z-paging(scroll-view)滚动，当前页面的z-paging(scroll-view)禁止滚动
-        scrollable.value = false
         myGoodsListRef.value[currentTab.value].setScrollable(true)
+        scrollable.value = false
         sticked.value = true
       }
     }
@@ -174,7 +174,7 @@ export default defineComponent({
 
     function setSticked() {
       scrollable.value = false
-      pagingRef.value?.scrollToY(tabsNode.value)
+      // pagingRef.value?.scrollToY(tabsNode.value)
       sticked.value = true
     }
 
@@ -198,22 +198,25 @@ export default defineComponent({
 
     onLoad(() => {
       const info = uni.getSystemInfoSync()
-      contentHeight.value = info.windowHeight + 100
-
+      contentHeight.value = Math.min(info.screenHeight, info.windowHeight + 60)
       nextTick(() => {
-        setTimeout(() => {
-          const query = uni.createSelectorQuery()
-          query
-            .select('.page_hd')
-            .boundingClientRect((data: any) => {
-              tabsNode.value = data.height + 20
-              console.log(data)
-              // const surplus = info.windowHeight + data.top - info.screenHeight
-              // console.log(info.screenHeight, info.windowHeight)
-              // contentHeight.value = surplus > 0 ? info.windowHeight : info.windowHeight + surplus
-            })
-            .exec()
-        }, 50)
+        const query = uni.createSelectorQuery()
+        query
+          .select('.tabs-wrapper')
+          .boundingClientRect((data: any) => {
+            tabsNode.value = data.top + 44
+          })
+          .exec()
+      })
+    })
+
+    onShow(() => {
+      // fix 切换tab导致滚动条出问题
+      myGoodsListRef.value[currentTab.value]?.reset()
+      nextTick(() => {
+        scrollable.value = true
+        sticked.value = false
+        pagingRef.value?.scrollToY(0)
       })
     })
 
@@ -262,6 +265,9 @@ export default defineComponent({
 .page_hd {
   padding: 20rpx 26rpx 40rpx 26rpx;
   background: #fff;
+  margin-bottom: 40rpx;
+  height: 500rpx;
+  box-sizing: border-box;
 
   .user-panel {
     display: flex;
@@ -375,7 +381,6 @@ export default defineComponent({
 }
 .page_bd {
   background: #fff;
-  margin-top: 40rpx;
   // flex: 1;
   display: flex;
   flex-direction: column;
@@ -387,7 +392,8 @@ export default defineComponent({
   .swiper {
     flex: 1;
     // padding-top: 20rpx;
-    padding-bottom: 80rpx;
+    // padding-bottom: 80rpx;
+    // box-sizing: content-box;
   }
 
   &.sticked {
