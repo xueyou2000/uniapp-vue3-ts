@@ -31,6 +31,7 @@ export default defineComponent({
 
 <style scoped lang="less">
 .my-goods {
+  width: 330rpx;
   display: flex;
   flex-direction: column;
   border-radius: 20rpx;

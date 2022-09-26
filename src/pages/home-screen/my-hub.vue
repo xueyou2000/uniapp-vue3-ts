@@ -1,7 +1,15 @@
 <template>
   <view class="my-hub">
     <view class="title-nview"></view>
-    <z-paging ref="pagingRef" @scroll="scroll" refresher-only :scrollable="scrollable" @query="refresh">
+    <z-paging
+      ref="pagingRef"
+      @scroll="scroll"
+      refresher-only
+      :scrollable="scrollable"
+      @query="refresh"
+      :auto-show-system-loading="true"
+      :refresher-threshold="50"
+    >
       <view class="page_hd">
         <view class="user-panel">
           <view class="avatar">
@@ -39,21 +47,12 @@
           </navigator>
         </view>
 
-        <uni-grid
-          class="menu-grid"
-          :column="4"
-          :show-border="false"
-          :square="false"
-          :highlight="false"
-          @change="onMenuGridClick($event.detail.index)"
-        >
-          <uni-grid-item v-for="(item, index) in HD_MENUS" :index="index" :key="index">
-            <view class="grid-item-item">
-              <image class="image" :src="item.icon" />
-              <text class="text">{{ item.text }}</text>
-            </view>
-          </uni-grid-item>
-        </uni-grid>
+        <view class="menu-grid">
+          <view class="grid-item-item" v-for="(item, index) in HD_MENUS" :key="index" @click="onMenuGridClick(index)">
+            <image class="image" :src="item.icon" />
+            <text class="text">{{ item.text }}</text>
+          </view>
+        </view>
       </view>
       <view class="page_bd" :class="{ sticked }" :style="'height:' + contentHeight + 'px'">
         <!-- 小程序中直接修改组件style为position: sticky;无效，需要在组件外层套一层view -->
@@ -72,7 +71,7 @@
         <swiper class="swiper" :current="currentTab" @transition="swiperTransition" @animationfinish="swiperAnimationfinish">
           <swiper-item class="swiper-item" v-for="(item, index) in tabList" :key="index">
             <MyGoodsList
-              ref="myGoodsListRef"
+              :ref="saveMyGoodsListRef"
               :tabIndex="index"
               :currentIndex="currentTab"
               :sticked="sticked"
@@ -88,7 +87,7 @@
 
 <script lang="ts">
 import { onLoad } from '@dcloudio/uni-app'
-import { defineComponent, ref, nextTick, computed } from 'vue'
+import { defineComponent, ref, nextTick, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores'
 import { chinaAddrMasking } from '@/utils/string-utils'
@@ -128,11 +127,15 @@ export default defineComponent({
     const tabList = ref(['我的藏品', '我的空投', '我的盲盒'])
     const scrollable = ref(true)
     const sticked = ref(false)
-    const tabsNode = ref({ height: 0, top: 0 })
+    const tabsNode = ref(270)
     const contentHeight = ref(640)
     const pagingRef = ref<InstanceType<any>>()
-    const myGoodsListRef = ref<InstanceType<any>>()
+    const myGoodsListRef = ref<InstanceType<any>>([])
     const tabsRef = ref<InstanceType<any>>()
+
+    function saveMyGoodsListRef(ref: any) {
+      myGoodsListRef.value.push(ref)
+    }
 
     function onMenuGridClick(index: number) {
       const item = HD_MENUS[index]
@@ -150,7 +153,7 @@ export default defineComponent({
     function scroll(e: any) {
       const scrollTop = e.detail.scrollTop
       //如果当前页面的scroll-view的scrollTop大于等于headerView的高度，则代表吸顶了
-      if (scrollTop < tabsNode.value.top) {
+      if (scrollTop < tabsNode.value) {
         //还没吸顶
         //禁止子组件的z-paging(scroll-view)滚动，当前页面的z-paging(scroll-view)允许滚动
         scrollable.value = true
@@ -171,7 +174,7 @@ export default defineComponent({
 
     function setSticked() {
       scrollable.value = false
-      pagingRef.value?.scrollToY(tabsNode.value.top)
+      pagingRef.value?.scrollToY(tabsNode.value)
       sticked.value = true
     }
 
@@ -181,33 +184,41 @@ export default defineComponent({
 
     /** 同步swiper滑动过程中tabs下的横线滑动 */
     function swiperTransition(e: any) {
-      // tabsRef.value?.setDx(e.detail.dx)
+      try {
+        tabsRef.value?.setDx(e.detail.dx)
+      } catch (e) {}
     }
     function swiperAnimationfinish(e: any) {
       currentTab.value = e.detail.current
-      // myGoodsListRef.value[currentTab.value].setScrollable(!scrollable.value)
-      // tabsRef.value?.unlockDx(e.detail.dx)
+      try {
+        myGoodsListRef.value[currentTab.value].setScrollable(!scrollable.value)
+        tabsRef.value?.unlockDx(e.detail.dx)
+      } catch (e) {}
     }
 
     onLoad(() => {
       const info = uni.getSystemInfoSync()
-      // contentHeight.value = 630
+      contentHeight.value = info.windowHeight + 100
+
       nextTick(() => {
-        const query = uni.createSelectorQuery()
-        query
-          .select('.tabs-wrapper')
-          .boundingClientRect((data: any) => {
-            tabsNode.value = data
-            console.log(data)
-            // const surplus = info.windowHeight + data.top - info.screenHeight
-            // console.log(info.screenHeight, info.windowHeight)
-            // contentHeight.value = surplus > 0 ? info.windowHeight : info.windowHeight + surplus
-          })
-          .exec()
+        setTimeout(() => {
+          const query = uni.createSelectorQuery()
+          query
+            .select('.page_hd')
+            .boundingClientRect((data: any) => {
+              tabsNode.value = data.height + 20
+              console.log(data)
+              // const surplus = info.windowHeight + data.top - info.screenHeight
+              // console.log(info.screenHeight, info.windowHeight)
+              // contentHeight.value = surplus > 0 ? info.windowHeight : info.windowHeight + surplus
+            })
+            .exec()
+        }, 50)
       })
     })
 
     return {
+      saveMyGoodsListRef,
       HD_MENUS,
       userInfo,
       chinaAddrMasking,
@@ -346,6 +357,7 @@ export default defineComponent({
       display: flex;
       flex-direction: column;
       align-items: center;
+      flex: 1;
 
       .image {
         width: 60rpx;
@@ -374,7 +386,7 @@ export default defineComponent({
   }
   .swiper {
     flex: 1;
-    padding-top: 20rpx;
+    // padding-top: 20rpx;
     padding-bottom: 80rpx;
   }
 

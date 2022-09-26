@@ -1,5 +1,5 @@
 <template>
-  <view class="my-goods-list">
+  <view class="my-goods-list" :class="{ empty: dataList.length == 0 }">
     <z-paging
       ref="pagingRef"
       v-model="dataList"
@@ -32,6 +32,7 @@ import { queryMyGoodsByPage } from '@/service/goods'
 import MyGoodsCell from '@/components/my-collection/my-goods-cell.vue'
 
 export default defineComponent({
+  name: 'MyGoodsList',
   components: {
     MyGoodsCell
   },
@@ -163,7 +164,18 @@ export default defineComponent({
   height: 100%;
 
   .item {
-    margin: 20rpx;
+    margin: 20rpx auto;
+  }
+
+  &.empty {
+    :deep(.zp-paging-container) {
+      .zp-paging-container-content {
+        height: auto;
+      }
+      .zp-empty-view-center {
+        margin-top: -500rpx;
+      }
+    }
   }
 }
 </style>

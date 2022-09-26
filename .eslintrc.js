@@ -14,6 +14,7 @@ module.exports = {
   plugins: ['vue'],
   rules: {
     indent: ['error', 2],
-    'vue/multi-word-component-names': 'off'
+    'vue/multi-word-component-names': 'off',
+    '@typescript-eslint/no-explicit-any': 'off'
   }
 }
