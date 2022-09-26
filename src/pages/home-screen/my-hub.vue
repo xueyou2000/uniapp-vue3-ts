@@ -87,7 +87,7 @@
 
 <script lang="ts">
 import { onLoad, onShow } from '@dcloudio/uni-app'
-import { defineComponent, ref, nextTick, onMounted } from 'vue'
+import { defineComponent, ref, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores'
 import { chinaAddrMasking } from '@/utils/string-utils'
@@ -408,6 +408,18 @@ export default defineComponent({
 
     &:not(:last-child) {
       margin-right: 40rpx;
+    }
+  }
+
+  /** TIPS: 这里只有H5生效，小程序无法选择子组件的样式，:deep只能用于页面，不能用于组件！ */
+  :deep(.my-goods-list) {
+    &.empty {
+      .zp-paging-container-content {
+        height: auto !important;
+      }
+      .zp-empty-view-center {
+        margin-top: -600rpx !important;
+      }
     }
   }
 }

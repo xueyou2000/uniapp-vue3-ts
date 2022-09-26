@@ -24,6 +24,9 @@
           "titleNView": false,
           "background": "#f6f6f6"
         },
+        "mp-weixin": {
+          "navigationBarBackgroundColor": "#f6f6f6"
+        },
         "backgroundColor": "#f6f6f6",
         "backgroundColorTop": "#fff",
         "navigationBarTextStyle": "black"

@@ -1,6 +1,7 @@
 <template>
   <view class="my-goods-list" :class="{ empty: dataList.length == 0 }">
     <z-paging
+      class="zpadding"
       ref="pagingRef"
       v-model="dataList"
       @query="queryByPage"
@@ -177,12 +178,13 @@ export default defineComponent({
   }
 
   &.empty {
+    /** TIPS: 这里只有H5生效，小程序无法选择子组件的样式，:deep只能用于页面，不能用于组件！ */
     :deep(.zp-paging-container) {
       .zp-paging-container-content {
-        height: auto;
+        height: auto !important;
       }
       .zp-empty-view-center {
-        margin-top: -500rpx;
+        margin-top: -600rpx !important;
       }
     }
   }
