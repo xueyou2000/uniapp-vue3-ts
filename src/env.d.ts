@@ -14,3 +14,7 @@ interface ImportMetaEnv extends Readonly<Record<string, string>> {
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
+
+declare module 'z-paging' {
+  export default any
+}

@@ -51,6 +51,7 @@
     "@dcloudio/uni-quickapp-webview": "3.0.0-alpha-3060320220919001",
     "@dcloudio/uni-ui": "^1.4.22",
     "@vueuse/core": "^9.2.0",
+    "@zxlee/z-tabs": "^0.1.9",
     "core-js": "^3.25.2",
     "dayjs": "^1.11.5",
     "lodash-es": "^4.17.21",
@@ -59,7 +60,8 @@
     "uni-app-network": "^0.6.0",
     "vue": "^3.2.39",
     "vue-i18n": "^9.1.9",
-    "vue-query": "^1.26.0"
+    "vue-query": "^1.26.0",
+    "z-paging": "^2.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
@@ -83,6 +85,7 @@
     "@vue/eslint-config-typescript": "^11.0.1",
     "@vue/test-utils": "^2.0.2",
     "@vue/tsconfig": "^0.1.3",
+    "change-case": "^4.1.2",
     "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard-with-typescript": "^23.0.0",
@@ -105,7 +108,9 @@
     "uni-app-types": "^0.1.5",
     "uni-cloud-types": "^0.1.5",
     "uni-ui-types": "^0.1.3",
+    "unplugin-auto-import": "^0.11.2",
     "unplugin-icons": "^0.14.10",
+    "unplugin-vue-components": "^0.22.7",
     "unplugin-vue-macros": "^0.11.2",
     "vite": "2.9.14",
     "vite-plugin-eslint": "^1.8.1",
