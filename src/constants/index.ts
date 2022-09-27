@@ -14,3 +14,4 @@ export const PageLimitKey = 'pageLimit'
 export const DefaultPageLimit = 10
 
 export const HOME_PAGE = '/pages/index'
+export const LOGIN_PAGE = '/pages/user/login'

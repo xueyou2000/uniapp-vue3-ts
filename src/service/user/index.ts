@@ -5,6 +5,6 @@ import { uanInstance } from '@/helpers'
  */
 export function getUserInfo() {
   return uanInstance
-    .post<TResponseData, TRequestData, IRequestResponse<TResponseData<UserInfo>, TRequestData>>('/api/user/info')
+    .post<TResponseData, TRequestData, IRequestResponse<TResponseData<UserInfo>, TRequestData>>('/api/user/info', {}, { showError: true })
     .then((res) => res.data?.data)
 }

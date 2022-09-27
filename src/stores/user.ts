@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
-import { getToken, logger } from '@/helpers'
+import { getToken, setToken, showModal, logger } from '@/helpers'
 import { getUserInfo } from '@/service/user'
+import { LOGIN_PAGE } from '@/constants'
 
 export interface UserStoreState {
   /** 用户信息 */
@@ -32,6 +33,16 @@ export const useUserStore = defineStore('user', {
         .catch((error) => {
           logger.error('getUserInfo:' + error)
         })
+    },
+    authorityExpired() {
+      showModal({
+        title: '请重新登录。'
+      })
+      setToken()
+      this.userInfo = undefined
+      uni.reLaunch({
+        url: LOGIN_PAGE
+      })
     },
     copyChinaAddr() {
       if (this.userInfo) {

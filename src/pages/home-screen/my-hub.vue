@@ -42,7 +42,7 @@
                 <text class="title">我的世界</text>
                 <text class="desc">铸造已开放</text>
               </view>
-              <image class="img" src="@/static/pages/home-screen/wallet_whilte_icon.png"></image>
+              <image class="img" src="@/static/pages/home-screen/earth_whilte_icon.png"></image>
             </view>
           </navigator>
         </view>

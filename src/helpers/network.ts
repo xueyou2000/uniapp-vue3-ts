@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import uan, { UanError } from 'uni-app-network'
 import qs from 'qs'
-import { getToken, setToken } from './storage'
+import { getToken } from './storage'
 import { MutationCache, QueryCache, QueryClient, type VueQueryPluginOptions } from 'vue-query'
 import { showToast } from './toast'
 import { reactive } from 'vue'
 import { showModal } from './modal'
-import { HOME_PAGE, Headers } from '@/constants'
+import { Headers } from '@/constants'
+import { useUserStore } from '@/stores'
 
 const instance = uan.create({
-  baseUrl: import.meta.env.VITE_REQUEST_BASE_URL || '/',
+  baseUrl: process.env.NODE_ENV === 'development' ? '/' : import.meta.env.VITE_REQUEST_BASE_URL || '/',
   timeout: 30000,
   headers: {
     ...Headers
@@ -33,9 +34,28 @@ instance.interceptors.request.use((config) => ({
   }
 }))
 instance.interceptors.response.use((config) => {
+  const userStore = useUserStore()
   const res = config.data as TResponseData
+  console.log(config)
+  console.log(userStore.userInfo)
+  if (config.status === 401 || config.status === 502) {
+    // 跳转登录重新授权
+    userStore.authorityExpired()
+  }
+  // 非json响应
+  if (!res.data || typeof res.data !== 'object') {
+    throw new UanError('服务器响应格式错误', res?.code, config)
+  }
+  // 业务响应失败
   if (res?.code != '0') {
-    throw new UanError('请求失败', res?.code, config)
+    const msg = res?.message || '请求失败'
+    if (config.config?.showError !== true) {
+      uni.showToast({
+        title: msg,
+        icon: 'error'
+      })
+    }
+    throw new UanError(res?.message || '请求失败', res?.code, config)
   }
   return config
 })
@@ -206,6 +226,7 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       queryFn: async ({ queryKey }) => {
+        const userStore = useUserStore()
         // console.log('');
         // console.log('queryKey', queryKey);
         // console.log('');
@@ -227,14 +248,7 @@ export const queryClient = new QueryClient({
         })
         if (!(response?.data?.success ?? true)) {
           if (reSignInCodes.has(response?.data?.code ?? '')) {
-            setToken()
-            showError({
-              hasPrefix: false,
-              message: '请重新登录。'
-            })
-            uni.reLaunch({
-              url: HOME_PAGE
-            })
+            userStore.authorityExpired()
           } else if (config?.showError ?? true) {
             showError({
               response,
@@ -249,6 +263,7 @@ export const queryClient = new QueryClient({
     },
     mutations: {
       mutationFn: async (variables) => {
+        const userStore = useUserStore()
         // console.log('');
         // console.log('variables', variables);
         // console.log('');
@@ -259,14 +274,7 @@ export const queryClient = new QueryClient({
         })
         if (!(response?.data?.success ?? true)) {
           if (reSignInCodes.has(response?.data?.code ?? '')) {
-            setToken()
-            showError({
-              hasPrefix: false,
-              message: '请重新登录。'
-            })
-            uni.reLaunch({
-              url: '/pages/index'
-            })
+            userStore.authorityExpired()
           } else if (config?.showError ?? true) {
             showError({
               response,
