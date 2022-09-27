@@ -211,13 +211,13 @@ export default defineComponent({
     })
 
     onShow(() => {
-      // fix 切换tab导致滚动条出问题
-      myGoodsListRef.value[currentTab.value]?.reset()
-      nextTick(() => {
+      // fix 切换tab时，外层滚动条如果不可scrollable，则滚动条位置不会记录上次的地方
+      if (!scrollable.value) {
         scrollable.value = true
-        sticked.value = false
-        pagingRef.value?.scrollToY(0)
-      })
+        nextTick(() => {
+          scrollable.value = false
+        })
+      }
     })
 
     return {
